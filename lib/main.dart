@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 import 'package:provider/provider.dart';
 
 import 'pages/Progress.dart';
@@ -61,21 +60,36 @@ class _MyAppState extends State<MyApp> {
   var completeIndex = 0;
 
   getData() async {
+    final now = DateTime.now();
     var prefs = await SharedPreferences.getInstance();
     var getOneThing = prefs.getString('oneThing');
     var getIsChanged = prefs.getInt('isChanged');
     var getCompleteIndex = prefs.getInt('completeIndex');
+    var getTomorrow = prefs.getString('tomorrow');
     setState(() {
       if (getOneThing != null) {
-        oneThing = getOneThing;
-      }
-      if (getIsChanged != null) {
-        isChanged = getIsChanged;
-      }
-      if (getCompleteIndex != null) {
-        completeIndex = getCompleteIndex;
-      }
+      oneThing = getOneThing;
+    }
+    if (getIsChanged != null) {
+      isChanged = getIsChanged;
+    }
     });
+    
+    if (getTomorrow != null) {
+      if (now.isAfter(DateTime.parse(getTomorrow))) {
+        setState(() {
+          completeIndex = 0;
+        });
+      } else {
+        if (getCompleteIndex != null) {
+          setState(() {
+            completeIndex = getCompleteIndex;
+          });
+        }
+      }
+    }
+    await prefs.setString(
+        'tomorrow', DateTime(now.year, now.month, now.day + 1).toString());
   }
 
   navigationTapped(i) {
