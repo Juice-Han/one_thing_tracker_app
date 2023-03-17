@@ -1,13 +1,13 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/main.dart';
-import 'package:provider/provider.dart';
+
 
 import '../components/Setting.dart';
 
 class OneThingBefore extends StatefulWidget {
-  const OneThingBefore({super.key});
-
+  OneThingBefore({super.key, this.changeOneThing});
+  var changeOneThing;
   @override
   State<OneThingBefore> createState() => _OneThingBeforeState();
 }
@@ -22,7 +22,7 @@ class _OneThingBeforeState extends State<OneThingBefore> {
           ElevatedButton(
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (c) => Setting()));
+                  context, MaterialPageRoute(builder: (c) => Setting(changeOneThing: widget.changeOneThing,)));
             },
             child: Icon(
               Icons.add,

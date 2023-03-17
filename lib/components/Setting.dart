@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
+
 class Setting extends StatelessWidget {
   Setting({super.key, this.changeOneThing});
 
@@ -53,7 +54,8 @@ class Setting extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  context.read<store1>().changeOneThing(textController1.text);
+                  changeOneThing(textController1.text);
+                  context.read<store1>().saveOneThing(textController1.text);
                   Navigator.pop(context);
                   AwesomeNotifications().createNotification(
                       content: NotificationContent(
@@ -64,7 +66,7 @@ class Setting extends StatelessWidget {
                           wakeUpScreen: true,
                           autoDismissible: false),
                       schedule: NotificationCalendar(
-                          hour: 18, repeats: true, preciseAlarm: true));
+                          hour: 18, minute: 00, preciseAlarm: true));
                 },
                 child: Text('저장'))
           ],

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
-import 'package:provider/provider.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
 
 import 'pages/Progress.dart';
 import 'components/History.dart';
@@ -23,37 +24,26 @@ void main() {
         )
       ],
       debug: true);
-  runApp(ChangeNotifierProvider(
-    create: (c) => store1(),
-    child: MaterialApp(
-      home: MyApp(),
+  runApp(
+    ChangeNotifierProvider(
+      create: (c) => store1(),
+      child: MaterialApp(
+        home: MyApp(),
+      ),
     ),
-  ));
+  );
 }
 
 class store1 extends ChangeNotifier {
-  var oneThing = '';
-  var isChanged = 0;
-
-  changeOneThing(s) async {
+  saveOneThing(s) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('oneThing', s);
-    prefs.setInt('isChanged', 1);
-    oneThing = s;
-    isChanged = 1;
-    notifyListeners();
+    await prefs.setString('oneThing', s);
+    await prefs.setInt('isChanged', 1);
   }
 
-  getOneThing() async {
+  saveCompleteIndex(i) async {
     var prefs = await SharedPreferences.getInstance();
-    var savedOneThing = prefs.getString('oneThing');
-    var checkOneThing = prefs.getInt('isChanged');
-    if (savedOneThing != null) {
-      oneThing = savedOneThing;
-    }
-    if (checkOneThing != null) {
-      isChanged = checkOneThing;
-    }
+    await prefs.setInt('completeIndex', i);
   }
 }
 
@@ -66,6 +56,27 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var page = 0;
+  var oneThing = '';
+  var isChanged = 0;
+  var completeIndex = 0;
+
+  getData() async {
+    var prefs = await SharedPreferences.getInstance();
+    var getOneThing = prefs.getString('oneThing');
+    var getIsChanged = prefs.getInt('isChanged');
+    var getCompleteIndex = prefs.getInt('completeIndex');
+    setState(() {
+      if (getOneThing != null) {
+        oneThing = getOneThing;
+      }
+      if (getIsChanged != null) {
+        isChanged = getIsChanged;
+      }
+      if (getCompleteIndex != null) {
+        completeIndex = getCompleteIndex;
+      }
+    });
+  }
 
   navigationTapped(i) {
     setState(() {
@@ -73,45 +84,61 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  changeOneThing(s) {
+    setState(() {
+      oneThing = s;
+      isChanged = 1;
+    });
+  }
+
+  changeCompleteIndexTo1() {
+    setState(() {
+      completeIndex = 1;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: context.read<store1>().getOneThing(),
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('One Thing Tracker'),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, CupertinoPageRoute(builder: (c) => History()));
-                },
-                icon: Icon(Icons.menu),
-              )
-            ],
-          ),
-          body: [
-            [
-              OneThingBefore(),
-              OneThingAfter()
-            ][context.watch<store1>().isChanged],
-            Progress()
-          ][page],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: page,
-            onTap: (i) {
-              navigationTapped(i);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('One Thing Tracker'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, CupertinoPageRoute(builder: (c) => History()));
             },
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: 'OneThing'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_month), label: 'Calendar')
-            ],
-          ),
-        );
-      },
+            icon: Icon(Icons.menu),
+          )
+        ],
+      ),
+      body: [
+        [
+          OneThingBefore(changeOneThing: changeOneThing),
+          OneThingAfter(
+              oneThing: oneThing,
+              completeIndex: completeIndex,
+              changeCompleteIndexTo1: changeCompleteIndexTo1)
+        ][isChanged],
+        Progress()
+      ][page],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: page,
+        onTap: (i) {
+          navigationTapped(i);
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'OneThing'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month), label: 'Calendar')
+        ],
+      ),
     );
   }
 }
