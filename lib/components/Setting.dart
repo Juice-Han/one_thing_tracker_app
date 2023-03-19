@@ -1,4 +1,3 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -38,16 +37,7 @@ class Setting extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             ElevatedButton(
-                onPressed: () {
-                  AwesomeNotifications()
-                      .isNotificationAllowed()
-                      .then((isAllowed) {
-                    if (!isAllowed) {
-                      AwesomeNotifications()
-                          .requestPermissionToSendNotifications();
-                    }
-                  });
-                },
+                onPressed: () {},
                 child: Text('네')),
             SizedBox(
               height: 6,
@@ -57,16 +47,6 @@ class Setting extends StatelessWidget {
                   changeOneThing(textController1.text);
                   context.read<store1>().saveOneThing(textController1.text);
                   Navigator.pop(context);
-                  AwesomeNotifications().createNotification(
-                      content: NotificationContent(
-                          id: 10,
-                          channelKey: 'basic_channel',
-                          title: '오늘의 OneThing을 실천했나요?',
-                          body: '앱에서 확인버튼을 눌러주세요!',
-                          wakeUpScreen: true,
-                          autoDismissible: false),
-                      schedule: NotificationCalendar(
-                          hour: 18, minute: 00, preciseAlarm: true));
                 },
                 child: Text('저장'))
           ],

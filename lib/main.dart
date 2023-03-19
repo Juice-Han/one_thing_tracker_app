@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -10,19 +9,6 @@ import 'components/History.dart';
 import 'pages/OneThingBefore.dart';
 
 void main() {
-  //awesome notifications 초기 세팅
-  AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
-      null,
-      [
-        NotificationChannel(
-          channelGroupKey: 'basic_channel_group',
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
-        )
-      ],
-      debug: true);
   runApp(
     ChangeNotifierProvider(
       create: (c) => store1(),
