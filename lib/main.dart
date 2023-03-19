@@ -65,8 +65,9 @@ class _MyAppState extends State<MyApp> {
 
     if (getTomorrow != null) {
       if (now.isAfter(DateTime.parse(getTomorrow))) {
-        setState(() {
+        setState(() async {
           completeIndex = 0;
+          prefs.setInt('completeIndex', 0);
         });
       } else {
         if (getCompleteIndex != null) {
@@ -78,6 +79,8 @@ class _MyAppState extends State<MyApp> {
     }
     await prefs.setString(
         'tomorrow', DateTime(now.year, now.month, now.day + 1).toString());
+    print(now);
+    print(getTomorrow);
   }
 
   navigationTapped(i) {
