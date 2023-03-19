@@ -65,10 +65,10 @@ class _MyAppState extends State<MyApp> {
 
     if (getTomorrow != null) {
       if (now.isAfter(DateTime.parse(getTomorrow))) {
-        setState(() async {
+        setState(() {
           completeIndex = 0;
-          prefs.setInt('completeIndex', 0);
         });
+        prefs.setInt('completeIndex', 0);
       } else {
         if (getCompleteIndex != null) {
           setState(() {
