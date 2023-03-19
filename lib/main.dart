@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:one_thing_tracker_app/notification.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'pages/Progress.dart';
 import 'components/History.dart';
@@ -54,13 +56,13 @@ class _MyAppState extends State<MyApp> {
     var getTomorrow = prefs.getString('tomorrow');
     setState(() {
       if (getOneThing != null) {
-      oneThing = getOneThing;
-    }
-    if (getIsChanged != null) {
-      isChanged = getIsChanged;
-    }
+        oneThing = getOneThing;
+      }
+      if (getIsChanged != null) {
+        isChanged = getIsChanged;
+      }
     });
-    
+
     if (getTomorrow != null) {
       if (now.isAfter(DateTime.parse(getTomorrow))) {
         setState(() {
@@ -100,6 +102,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    initNotification(context);
     getData();
   }
 

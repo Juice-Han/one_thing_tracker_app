@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
+import '../notification.dart';
 
 class Setting extends StatelessWidget {
   Setting({super.key, this.changeOneThing});
@@ -37,7 +39,16 @@ class Setting extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  FlutterLocalNotificationsPlugin
+                      flutterLocalNotificationsPlugin =
+                      FlutterLocalNotificationsPlugin();
+                  flutterLocalNotificationsPlugin
+                      .resolvePlatformSpecificImplementation<
+                          AndroidFlutterLocalNotificationsPlugin>()
+                      ?.requestPermission();
+                  showNotification();
+                },
                 child: Text('네')),
             SizedBox(
               height: 6,
