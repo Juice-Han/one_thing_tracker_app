@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:calendar_view/calendar_view.dart';
 
 class Progress extends StatefulWidget {
   const Progress({super.key});
@@ -11,6 +12,11 @@ class Progress extends StatefulWidget {
 class _ProgressState extends State<Progress> {
   @override
   Widget build(BuildContext context) {
-    return Text('progress');
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: MonthView(),
+      ),
+    );
   }
 }

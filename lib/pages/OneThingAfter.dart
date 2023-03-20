@@ -1,14 +1,12 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../components/Setting.dart';
 
 class OneThingAfter extends StatefulWidget {
-  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1});
+  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, });
   var completeIndex;
   var oneThing;
   var changeCompleteIndexTo1;
@@ -28,6 +26,9 @@ class _OneThingAfterState extends State<OneThingAfter> {
               onPressed: (){
                 widget.changeCompleteIndexTo1();
                 context.read<store1>().saveCompleteIndex(1);
+                final event = CalendarEventData(title: 'One',date: DateTime.now());
+                CalendarControllerProvider.of(context).controller.add(event);
+                context.read<store1>().saveDate(DateTime.now().toString());
                 },
               child: Container(
                 height: 150,

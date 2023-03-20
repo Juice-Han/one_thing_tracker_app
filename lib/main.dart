@@ -1,10 +1,10 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/notification.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'pages/Progress.dart';
 import 'components/History.dart';
@@ -12,10 +12,13 @@ import 'pages/OneThingBefore.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (c) => store1(),
-      child: MaterialApp(
-        home: MyApp(),
+    CalendarControllerProvider(
+      controller: EventController(),
+      child: ChangeNotifierProvider(
+        create: (c) => store1(),
+        child: MaterialApp(
+          home: MyApp(),
+        ),
       ),
     ),
   );
@@ -32,6 +35,18 @@ class store1 extends ChangeNotifier {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setInt('completeIndex', i);
   }
+
+  saveDate(d) async {
+    var prefs = await SharedPreferences.getInstance();
+    var dateList = prefs.getStringList('oneThingDate');
+    if (dateList == null) {
+      List<String> result = [d];
+      prefs.setStringList('oneThingDate', result);
+    } else {
+      dateList.add(d);
+      prefs.setStringList('oneThingDate', dateList);
+    }
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -46,6 +61,8 @@ class _MyAppState extends State<MyApp> {
   var oneThing = '';
   var isChanged = 0;
   var completeIndex = 0;
+  var oneThingDate;
+  var isGetCalendar = false;
 
   getData() async {
     final now = DateTime.now();
@@ -54,12 +71,17 @@ class _MyAppState extends State<MyApp> {
     var getIsChanged = prefs.getInt('isChanged');
     var getCompleteIndex = prefs.getInt('completeIndex');
     var getTomorrow = prefs.getString('tomorrow');
+    var getOneThingDate = prefs.getStringList('oneThingDate');
+
     setState(() {
       if (getOneThing != null) {
         oneThing = getOneThing;
       }
       if (getIsChanged != null) {
         isChanged = getIsChanged;
+      }
+      if (getOneThingDate != null) {
+        oneThingDate = getOneThingDate;
       }
     });
 
@@ -79,8 +101,22 @@ class _MyAppState extends State<MyApp> {
     }
     await prefs.setString(
         'tomorrow', DateTime(now.year, now.month, now.day + 1).toString());
-    print(now);
-    print(getTomorrow);
+  }
+
+  showCalenderData() {
+    //oneThingDate 가져와서 캘린더에 표시
+    //입력된 인자가 0일때만 불러오기 = 한 번 불러오면 두 번째부터는 안 불러옴
+    if (isGetCalendar == false) {
+      if (oneThingDate != null) {
+        for (var e in oneThingDate) {
+          var event = CalendarEventData(title: 'One', date: DateTime.parse(e));
+          CalendarControllerProvider.of(context).controller.add(event);
+        }
+      }
+      setState(() {
+        isGetCalendar = true;
+      });
+    }
   }
 
   navigationTapped(i) {
@@ -128,9 +164,10 @@ class _MyAppState extends State<MyApp> {
         [
           OneThingBefore(changeOneThing: changeOneThing),
           OneThingAfter(
-              oneThing: oneThing,
-              completeIndex: completeIndex,
-              changeCompleteIndexTo1: changeCompleteIndexTo1)
+            oneThing: oneThing,
+            completeIndex: completeIndex,
+            changeCompleteIndexTo1: changeCompleteIndexTo1,
+          )
         ][isChanged],
         Progress()
       ][page],
@@ -138,6 +175,9 @@ class _MyAppState extends State<MyApp> {
         currentIndex: page,
         onTap: (i) {
           navigationTapped(i);
+          if (i == 1) {
+            showCalenderData();
+          }
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'OneThing'),
