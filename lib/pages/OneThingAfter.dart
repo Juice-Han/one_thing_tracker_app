@@ -6,10 +6,11 @@ import 'package:provider/provider.dart';
 import '../components/Setting.dart';
 
 class OneThingAfter extends StatefulWidget {
-  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, });
+  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, this.addOneThingDate });
   var completeIndex;
   var oneThing;
   var changeCompleteIndexTo1;
+  var addOneThingDate;
   @override
   State<OneThingAfter> createState() => _OneThingAfterState();
 }
@@ -24,11 +25,13 @@ class _OneThingAfterState extends State<OneThingAfter> {
           [
             ElevatedButton(
               onPressed: (){
+                var now = DateTime.now().toString();
                 widget.changeCompleteIndexTo1();
                 context.read<store1>().saveCompleteIndex(1);
                 final event = CalendarEventData(title: 'One',date: DateTime.now());
                 CalendarControllerProvider.of(context).controller.add(event);
-                context.read<store1>().saveDate(DateTime.now().toString());
+                context.read<store1>().saveDate(now);
+                widget.addOneThingDate(now);
                 },
               child: Container(
                 height: 150,

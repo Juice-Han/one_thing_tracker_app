@@ -6,9 +6,10 @@ import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/Progress.dart';
+import 'pages/Calendar.dart';
 import 'components/History.dart';
 import 'pages/OneThingBefore.dart';
+import 'components/Save.dart';
 
 void main() {
   runApp(
@@ -61,7 +62,7 @@ class _MyAppState extends State<MyApp> {
   var oneThing = '';
   var isChanged = 0;
   var completeIndex = 0;
-  var oneThingDate;
+  var oneThingDate = [];
   var isGetCalendar = false;
 
   getData() async {
@@ -138,6 +139,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  addOneThingDate(d){
+    setState(() {
+      oneThingDate.add(d);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -151,6 +158,28 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: Text('One Thing Tracker'),
         actions: [
+          IconButton(
+            onPressed: () {
+              if (oneThingDate.length != 0) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((c) => Save(
+                            oneThing: oneThing,
+                            oneThingDate: oneThingDate,
+                          )),
+                    ));
+              } else {
+                showDialog(
+                    context: context,
+                    builder: ((context) => AlertDialog(
+                          title: Text('주의!'),
+                          content: Text('1회 수행 후 시도해주세요'),
+                        )));
+              }
+            },
+            icon: Icon(Icons.save),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -167,6 +196,7 @@ class _MyAppState extends State<MyApp> {
             oneThing: oneThing,
             completeIndex: completeIndex,
             changeCompleteIndexTo1: changeCompleteIndexTo1,
+            addOneThingDate: addOneThingDate,
           )
         ][isChanged],
         Progress()
