@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
-import '../components/Setting.dart';
-
 class OneThingAfter extends StatefulWidget {
   OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, this.addOneThingDate });
   var completeIndex;

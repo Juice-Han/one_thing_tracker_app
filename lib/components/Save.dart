@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:one_thing_tracker_app/main.dart';
+import 'package:provider/provider.dart';
 
 class Save extends StatelessWidget {
-  Save({super.key, this.oneThing, this.oneThingDate});
+  Save({super.key, this.oneThing, this.oneThingDate, this.addHistory});
 
   var oneThingDate;
   var oneThing;
+  var addHistory;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +90,17 @@ class Save extends StatelessWidget {
                   '지금까지의 원띵은 저장되고 \n 새로운 원띵이 시작됩니다. 저장할까요?',
                   style: TextStyle(fontSize: 15),
                 ),
-                ElevatedButton(onPressed: () {}, child: Text('저장'))
+                ElevatedButton(onPressed: () {
+                  var savingData = {
+                    'oneThing' : oneThing,
+                    'start': DateFormat('yyyy년 MM월 dd일').format(DateTime.parse(oneThingDate[0])),
+                    'end' : DateFormat('yyyy년 MM월 dd일').format(DateTime.parse(oneThingDate[oneThingDate.length - 1])),
+                    'times': oneThingDate.length,
+                  };
+                  addHistory(savingData);
+                  context.read<store1>().saveHistory(savingData);
+                  Navigator.pop(context);
+                }, child: Text('저장'))
               ],
             ),
           ],

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,19 @@ class store1 extends ChangeNotifier {
       prefs.setStringList('oneThingDate', dateList);
     }
   }
+
+  saveHistory(h) async {
+    var prefs = await SharedPreferences.getInstance();
+    var history = prefs.getString('history');
+    var data = jsonEncode(h);
+    print(data);
+    // if (history == null) {
+    //   prefs.setString('history', data);
+    // } else {
+    //   var a = 
+    //   prefs.setString('history', historyList);
+    // }
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -64,6 +79,7 @@ class _MyAppState extends State<MyApp> {
   var completeIndex = 0;
   var oneThingDate = [];
   var isGetCalendar = false;
+  var historyData = [];
 
   getData() async {
     final now = DateTime.now();
@@ -73,6 +89,7 @@ class _MyAppState extends State<MyApp> {
     var getCompleteIndex = prefs.getInt('completeIndex');
     var getTomorrow = prefs.getString('tomorrow');
     var getOneThingDate = prefs.getStringList('oneThingDate');
+    var getEncodingHistory = prefs.getString('history');
 
     setState(() {
       if (getOneThing != null) {
@@ -83,6 +100,9 @@ class _MyAppState extends State<MyApp> {
       }
       if (getOneThingDate != null) {
         oneThingDate = getOneThingDate;
+      }
+      if (getEncodingHistory != null) {
+        var result = jsonDecode(getEncodingHistory);
       }
     });
 
@@ -139,9 +159,15 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  addOneThingDate(d){
+  addOneThingDate(d) {
     setState(() {
       oneThingDate.add(d);
+    });
+  }
+
+  addHistory(h) {
+    setState(() {
+      historyData.add(h);
     });
   }
 
@@ -167,6 +193,7 @@ class _MyAppState extends State<MyApp> {
                       builder: ((c) => Save(
                             oneThing: oneThing,
                             oneThingDate: oneThingDate,
+                            addHistory: addHistory,
                           )),
                     ));
               } else {
@@ -183,7 +210,9 @@ class _MyAppState extends State<MyApp> {
           IconButton(
             onPressed: () {
               Navigator.push(
-                  context, CupertinoPageRoute(builder: (c) => History()));
+                  context,
+                  CupertinoPageRoute(
+                      builder: (c) => History(historyData: historyData)));
             },
             icon: Icon(Icons.menu),
           )
