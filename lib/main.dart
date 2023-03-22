@@ -51,17 +51,17 @@ class store1 extends ChangeNotifier {
     }
   }
 
-  saveHistory(h) async {
+  saveHistory({required String h}) async {
     var prefs = await SharedPreferences.getInstance();
-    var history = prefs.getString('history');
-    var data = jsonEncode(h);
-    print(data);
-    // if (history == null) {
-    //   prefs.setString('history', data);
-    // } else {
-    //   var a = 
-    //   prefs.setString('history', historyList);
-    // }
+    var history = prefs.getStringList('history');
+
+    if (history != null) {
+      history.add(h); // h는 history가 encoding된 String자료
+    } else {
+      history = [h];
+    }
+
+    prefs.setStringList('history', history);
   }
 }
 
