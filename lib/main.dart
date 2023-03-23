@@ -44,24 +44,16 @@ class store1 extends ChangeNotifier {
     var dateList = prefs.getStringList('oneThingDate');
     if (dateList == null) {
       List<String> result = [d];
-      prefs.setStringList('oneThingDate', result);
+      await prefs.setStringList('oneThingDate', result);
     } else {
       dateList.add(d);
-      prefs.setStringList('oneThingDate', dateList);
+      await prefs.setStringList('oneThingDate', dateList);
     }
   }
 
-  saveHistory({required String h}) async {
+  saveHistory(h) async {
     var prefs = await SharedPreferences.getInstance();
-    var history = prefs.getStringList('history');
-
-    if (history != null) {
-      history.add(h); // h는 history가 encoding된 String자료
-    } else {
-      history = [h];
-    }
-
-    prefs.setStringList('history', history);
+    await prefs.setString('history', h);
   }
 }
 
@@ -122,6 +114,23 @@ class _MyAppState extends State<MyApp> {
     }
     await prefs.setString(
         'tomorrow', DateTime(now.year, now.month, now.day + 1).toString());
+  }
+
+  resetData() async {
+    var prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      oneThing = '';
+      isChanged = 0;
+      completeIndex = 0;
+      oneThingDate = [];
+      isGetCalendar = false;
+    });
+
+    await prefs.remove('oneThing');
+    await prefs.remove('isChanged');
+    await prefs.remove('completeIndex');
+    await prefs.remove('oneThingDate');
   }
 
   showCalenderData() {
@@ -194,6 +203,7 @@ class _MyAppState extends State<MyApp> {
                             oneThing: oneThing,
                             oneThingDate: oneThingDate,
                             addHistory: addHistory,
+                            resetData: resetData,
                           )),
                     ));
               } else {

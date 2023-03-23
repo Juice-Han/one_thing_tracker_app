@@ -67,6 +67,7 @@ class _HistoryState extends State<History> {
                   ),
                 ]),
               ),
+              SizedBox(height: 30,),
             ],
           ),
           itemCount: widget.historyData.length,

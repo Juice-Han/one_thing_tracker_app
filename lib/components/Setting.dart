@@ -55,9 +55,9 @@ class Setting extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
+                  Navigator.pop(context);
                   changeOneThing(textController1.text);
                   context.read<store1>().saveOneThing(textController1.text);
-                  Navigator.pop(context);
                 },
                 child: Text('저장'))
           ],
