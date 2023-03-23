@@ -94,7 +94,8 @@ class _MyAppState extends State<MyApp> {
         oneThingDate = getOneThingDate;
       }
       if (getEncodingHistory != null) {
-        var result = jsonDecode(getEncodingHistory);
+        historyData = jsonDecode(getEncodingHistory);
+        print(historyData);
       }
     });
 
@@ -202,6 +203,7 @@ class _MyAppState extends State<MyApp> {
                       builder: ((c) => Save(
                             oneThing: oneThing,
                             oneThingDate: oneThingDate,
+                            historyData: historyData,
                             addHistory: addHistory,
                             resetData: resetData,
                           )),

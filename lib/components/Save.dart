@@ -6,8 +6,9 @@ import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
 class Save extends StatelessWidget {
-  Save({super.key, this.oneThing, this.oneThingDate, this.addHistory, this.resetData});
+  Save({super.key, this.oneThing, this.oneThingDate,this.historyData, this.addHistory, this.resetData});
 
+  var historyData;
   var oneThingDate;
   var oneThing;
   var addHistory;
@@ -99,7 +100,7 @@ class Save extends StatelessWidget {
                     'times': oneThingDate.length,
                   };
                   addHistory(savingData);
-                  context.read<store1>().saveHistory(jsonEncode(oneThingDate));
+                  context.read<store1>().saveHistory(jsonEncode(historyData));
                   resetData();
                   Navigator.pop(context);
                 }, child: Text('저장'))
