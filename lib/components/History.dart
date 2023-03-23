@@ -34,7 +34,7 @@ class _HistoryState extends State<History> {
                     Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                          '나의 OneThing: ${widget.historyData[i]['oneThing']}'),
+                          'OneThing: ${widget.historyData[i]['oneThing']}'),
                     ),
                   ],
                 ),

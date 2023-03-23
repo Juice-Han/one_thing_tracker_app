@@ -25,7 +25,7 @@ class Save extends StatelessWidget {
               height: 50,
             ),
             Text(
-              '나의 One Thing: ',
+              'One Thing: ',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 25,),
