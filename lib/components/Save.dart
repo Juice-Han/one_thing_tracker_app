@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
 class Save extends StatelessWidget {
-  Save({super.key, this.oneThing, this.oneThingDate,this.historyData, this.addHistory, this.resetData});
+  Save({super.key, this.oneThing, this.oneThingDate,this.historyData, this.addHistory, this.resetData, this.removeCalendarEvent});
 
+  var removeCalendarEvent;
   var historyData;
   var oneThingDate;
   var oneThing;
@@ -92,7 +94,7 @@ class Save extends StatelessWidget {
                   '지금까지의 원띵은 저장되고 \n 새로운 원띵이 시작됩니다. 저장할까요?',
                   style: TextStyle(fontSize: 15),
                 ),
-                ElevatedButton(onPressed: () {
+                ElevatedButton(onPressed: (){
                   var savingData = {
                     'oneThing' : oneThing,
                     'start': DateFormat('yyyy년 MM월 dd일').format(DateTime.parse(oneThingDate[0])),
@@ -101,6 +103,7 @@ class Save extends StatelessWidget {
                   };
                   addHistory(savingData);
                   context.read<store1>().saveHistory(jsonEncode(historyData));
+                  removeCalendarEvent();
                   resetData();
                   Navigator.pop(context);
                 }, child: Text('저장'))
@@ -112,3 +115,4 @@ class Save extends StatelessWidget {
     );
   }
 }
+

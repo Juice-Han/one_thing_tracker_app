@@ -72,6 +72,7 @@ class _MyAppState extends State<MyApp> {
   var oneThingDate = [];
   var isGetCalendar = false;
   var historyData = [];
+  var calendarEvents = [];
 
   getData() async {
     final now = DateTime.now();
@@ -95,7 +96,6 @@ class _MyAppState extends State<MyApp> {
       }
       if (getEncodingHistory != null) {
         historyData = jsonDecode(getEncodingHistory);
-        print(historyData);
       }
     });
 
@@ -134,14 +134,15 @@ class _MyAppState extends State<MyApp> {
     await prefs.remove('oneThingDate');
   }
 
-  showCalenderData() {
+  loadCalenderData() {
     //oneThingDate 가져와서 캘린더에 표시
     //입력된 인자가 0일때만 불러오기 = 한 번 불러오면 두 번째부터는 안 불러옴
     if (isGetCalendar == false) {
-      if (oneThingDate != null) {
+      if (oneThingDate.isNotEmpty) {
         for (var e in oneThingDate) {
-          var event = CalendarEventData(title: 'One', date: DateTime.parse(e));
-          CalendarControllerProvider.of(context).controller.add(event);
+          var event = CalendarEventData(
+              title: 'One', date: DateTime.parse(e), event: 'onething');
+          addCalendarEvent(event);
         }
       }
       setState(() {
@@ -150,6 +151,23 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  addCalendarEvent(e) {
+    setState(() {
+      calendarEvents.add(e);
+      CalendarControllerProvider.of(context).controller.add(e);
+    });
+  }
+
+  removeCalendarEvent() {
+      for(var e in calendarEvents){
+        setState(() {
+          CalendarControllerProvider.of(context).controller.remove(e);
+        });
+      }
+      setState(() {
+        calendarEvents = [];
+      });
+  }
   navigationTapped(i) {
     setState(() {
       page = i;
@@ -206,6 +224,7 @@ class _MyAppState extends State<MyApp> {
                             historyData: historyData,
                             addHistory: addHistory,
                             resetData: resetData,
+                            removeCalendarEvent: removeCalendarEvent,
                           )),
                     ));
               } else {
@@ -238,6 +257,7 @@ class _MyAppState extends State<MyApp> {
             completeIndex: completeIndex,
             changeCompleteIndexTo1: changeCompleteIndexTo1,
             addOneThingDate: addOneThingDate,
+            addCalendarEvent: addCalendarEvent,
           )
         ][isChanged],
         Progress()
@@ -247,8 +267,9 @@ class _MyAppState extends State<MyApp> {
         onTap: (i) {
           navigationTapped(i);
           if (i == 1) {
-            showCalenderData();
+            loadCalenderData();
           }
+          print(calendarEvents);
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'OneThing'),

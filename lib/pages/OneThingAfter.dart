@@ -4,11 +4,13 @@ import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
 class OneThingAfter extends StatefulWidget {
-  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, this.addOneThingDate });
+  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, this.addOneThingDate, this.addCalendarEvent});
   var completeIndex;
   var oneThing;
   var changeCompleteIndexTo1;
   var addOneThingDate;
+  var addCalendarEvent;
+
   @override
   State<OneThingAfter> createState() => _OneThingAfterState();
 }
@@ -28,6 +30,7 @@ class _OneThingAfterState extends State<OneThingAfter> {
                 context.read<store1>().saveCompleteIndex(1);
                 final event = CalendarEventData(title: 'One',date: DateTime.now());
                 CalendarControllerProvider.of(context).controller.add(event);
+                widget.addCalendarEvent(event);
                 context.read<store1>().saveDate(now);
                 widget.addOneThingDate(now);
                 },
