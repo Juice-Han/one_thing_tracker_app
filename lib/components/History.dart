@@ -63,7 +63,7 @@ class _HistoryState extends State<History> {
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   Padding(
                     padding: EdgeInsets.only(right: 10),
-                    child: Text('총 수행횟수: ${widget.historyData[i]['times']}회'),
+                    child: Text('총 실행횟수: ${widget.historyData[i]['times']}회'),
                   ),
                 ]),
               ),

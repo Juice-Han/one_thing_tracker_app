@@ -4,7 +4,13 @@ import 'package:one_thing_tracker_app/main.dart';
 import 'package:provider/provider.dart';
 
 class OneThingAfter extends StatefulWidget {
-  OneThingAfter({super.key, this.oneThing, this.completeIndex, this.changeCompleteIndexTo1, this.addOneThingDate, this.addCalendarEvent});
+  OneThingAfter(
+      {super.key,
+      this.oneThing,
+      this.completeIndex,
+      this.changeCompleteIndexTo1,
+      this.addOneThingDate,
+      this.addCalendarEvent});
   var completeIndex;
   var oneThing;
   var changeCompleteIndexTo1;
@@ -24,16 +30,17 @@ class _OneThingAfterState extends State<OneThingAfter> {
         children: [
           [
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
                 var now = DateTime.now().toString();
                 widget.changeCompleteIndexTo1();
                 context.read<store1>().saveCompleteIndex(1);
-                final event = CalendarEventData(title: 'One',date: DateTime.now());
+                final event =
+                    CalendarEventData(title: 'One', date: DateTime.now());
                 CalendarControllerProvider.of(context).controller.add(event);
                 widget.addCalendarEvent(event);
                 context.read<store1>().saveDate(now);
                 widget.addOneThingDate(now);
-                },
+              },
               child: Container(
                 height: 150,
                 width: 200,
@@ -58,7 +65,16 @@ class _OneThingAfterState extends State<OneThingAfter> {
               ),
             )
           ][widget.completeIndex],
-          Text(widget.oneThing, style: TextStyle(fontSize: 30),),
+          Column(
+            children: [
+              Text('One Thing: ', style: TextStyle(fontSize: 20),),
+              SizedBox(height: 30,),
+              Text(
+                widget.oneThing,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
         ],
       ),
     );

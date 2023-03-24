@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _OneThingBeforeState extends State<OneThingBefore> {
               size: 150,
             ),
           ),
-          Text('당신의 OneThing을 설정하세요'),
+          Text('당신의 OneThing을 설정하세요', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),),
         ],
       ),
     );

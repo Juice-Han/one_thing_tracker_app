@@ -20,6 +20,7 @@ void main() {
       child: ChangeNotifierProvider(
         create: (c) => store1(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: MyApp(),
         ),
       ),
@@ -28,6 +29,13 @@ void main() {
 }
 
 class store1 extends ChangeNotifier {
+  var notificationTime;
+
+  changeNotificationTime(t) {
+    notificationTime = t;
+    notifyListeners();
+  }
+
   saveOneThing(s) async {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString('oneThing', s);
@@ -202,7 +210,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initNotification(context);
+    initNotification();
     getData();
   }
 
@@ -260,7 +268,7 @@ class _MyAppState extends State<MyApp> {
             addCalendarEvent: addCalendarEvent,
           )
         ][isChanged],
-        Progress()
+        Calendar()
       ][page],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: page,
@@ -269,7 +277,6 @@ class _MyAppState extends State<MyApp> {
           if (i == 1) {
             loadCalenderData();
           }
-          print(calendarEvents);
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'OneThing'),

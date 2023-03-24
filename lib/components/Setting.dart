@@ -35,21 +35,10 @@ class Setting extends StatelessWidget {
               controller: textController1,
             ),
             Text(
-              '매일 저녁 6시마다 알림을 전송할까요?',
+              '매일 정해진 시간에 알림을 전송할까요?',
               style: TextStyle(fontSize: 18),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  FlutterLocalNotificationsPlugin
-                      flutterLocalNotificationsPlugin =
-                      FlutterLocalNotificationsPlugin();
-                  flutterLocalNotificationsPlugin
-                      .resolvePlatformSpecificImplementation<
-                          AndroidFlutterLocalNotificationsPlugin>()
-                      ?.requestPermission();
-                  showNotification();
-                },
-                child: Text('네')),
+            TimePick(),
             SizedBox(
               height: 6,
             ),
@@ -64,5 +53,43 @@ class Setting extends StatelessWidget {
         )),
       ),
     );
+  }
+}
+
+class TimePick extends StatefulWidget {
+  const TimePick({super.key});
+
+  @override
+  State<TimePick> createState() => _TimePickState();
+}
+
+class _TimePickState extends State<TimePick> {
+  var index = 0;
+  @override
+  Widget build(BuildContext context) {
+    return [
+      ElevatedButton(
+          onPressed: () {
+            Future<TimeOfDay?> selectedTime =
+                showTimePicker(context: context, initialTime: TimeOfDay.now());
+            selectedTime.then((timeOfDay) =>
+                context.read<store1>().changeNotificationTime(timeOfDay));
+            setState(() {
+              index = 1;
+            });
+          },
+          child: Text('시간 정하기')),
+      ElevatedButton(
+          onPressed: () {
+            FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+                FlutterLocalNotificationsPlugin();
+            flutterLocalNotificationsPlugin
+                .resolvePlatformSpecificImplementation<
+                    AndroidFlutterLocalNotificationsPlugin>()
+                ?.requestPermission();
+            showNotification(context.read<store1>().notificationTime);
+          },
+          child: Text('권한 허용을 눌러주세요')),
+    ][index];
   }
 }
