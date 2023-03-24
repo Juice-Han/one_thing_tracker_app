@@ -33,9 +33,13 @@ class _HistoryState extends State<History> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                          'OneThing: ${widget.historyData[i]['oneThing']}'),
-                    ),
+                      child: Row(children: [
+                        Text(
+                          'OneThing:  ',
+                        ),
+                        Text('${widget.historyData[i]['oneThing']}', style: TextStyle(fontWeight: FontWeight.w700),)
+                      ]),
+                    )
                   ],
                 ),
               ),
@@ -67,7 +71,9 @@ class _HistoryState extends State<History> {
                   ),
                 ]),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
           itemCount: widget.historyData.length,

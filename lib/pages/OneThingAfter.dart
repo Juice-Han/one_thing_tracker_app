@@ -67,11 +67,11 @@ class _OneThingAfterState extends State<OneThingAfter> {
           ][widget.completeIndex],
           Column(
             children: [
-              Text('One Thing: ', style: TextStyle(fontSize: 20),),
+              Text('One Thing: ', style: TextStyle(fontSize: 25),),
               SizedBox(height: 30,),
               Text(
                 widget.oneThing,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700,),
               ),
             ],
           ),

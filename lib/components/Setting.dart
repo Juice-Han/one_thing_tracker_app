@@ -24,33 +24,39 @@ class Setting extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              '당신의 OneThing은 무엇인가요?',
-              style: TextStyle(fontSize: 20),
-            ),
-            TextField(
-              controller: textController1,
-            ),
-            Text(
-              '매일 정해진 시간에 알림을 전송할까요?',
-              style: TextStyle(fontSize: 18),
-            ),
-            TimePick(),
-            SizedBox(
-              height: 6,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  changeOneThing(textController1.text);
-                  context.read<store1>().saveOneThing(textController1.text);
-                },
-                child: Text('저장'))
-          ],
-        )),
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height*9/10,
+                child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                Text(
+                  '당신의 OneThing은 무엇인가요?',
+                  style: TextStyle(fontSize: 20),
+                ),
+                TextField(
+                  maxLength: 20,
+                  controller: textController1,
+                ),
+                Text(
+                  '매일 정해진 시간에 알림을 전송할까요?',
+                  style: TextStyle(fontSize: 18),
+                ),
+                TimePick(),
+                SizedBox(
+                  height: 6,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      changeOneThing(textController1.text);
+                      context.read<store1>().saveOneThing(textController1.text);
+                    },
+                    child: Text('저장'))
+                        ],
+                      ),
+              ),
+            )),
       ),
     );
   }
