@@ -31,15 +31,16 @@ class _HistoryState extends State<History> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Row(children: [
-                        Text(
-                          'OneThing:  ',
-                        ),
-                        Text('${widget.historyData[i]['oneThing']}', style: TextStyle(fontWeight: FontWeight.w700),)
-                      ]),
-                    )
+                    Text(
+                        '   OneThing: ',
+                      ),
+                    Expanded(
+                      child: Text(
+                        '${widget.historyData[i]['oneThing']}',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -22,6 +22,26 @@ class OneThingAfter extends StatefulWidget {
 }
 
 class _OneThingAfterState extends State<OneThingAfter> {
+
+  var tSize;
+  
+  @override
+  void initState() {
+    super.initState();
+    if(widget.oneThing.length > 15){
+      setState(() {
+        tSize = 17.0;
+      });
+    }else if(widget.oneThing.length > 10){
+      setState(() {
+        tSize = 22.0;
+      });
+    }else{
+      setState(() {
+        tSize = 30.0;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -69,9 +89,13 @@ class _OneThingAfterState extends State<OneThingAfter> {
             children: [
               Text('One Thing: ', style: TextStyle(fontSize: 25),),
               SizedBox(height: 30,),
-              Text(
-                widget.oneThing,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700,),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  widget.oneThing,
+                  style: TextStyle(fontSize: tSize, fontWeight: FontWeight.w700,),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ],
           ),

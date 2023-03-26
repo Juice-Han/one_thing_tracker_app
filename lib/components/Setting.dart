@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -95,7 +96,7 @@ class _TimePickState extends State<TimePick> {
                 ?.requestPermission();
             showNotification(context.read<store1>().notificationTime);
           },
-          child: Text('권한 허용을 눌러주세요')),
+          child: Text('알림 권한 허용')),
     ][index];
   }
 }

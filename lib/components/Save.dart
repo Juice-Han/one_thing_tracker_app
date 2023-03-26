@@ -15,9 +15,17 @@ class Save extends StatelessWidget {
   var oneThing;
   var addHistory;
   var resetData;
+  var tSize;
 
   @override
   Widget build(BuildContext context) {
+    if(oneThing.length > 15){
+      tSize = 18.0;
+    }else if(oneThing.length > 10){
+      tSize = 23.0;
+    }else{
+      tSize = 30.0;
+    }
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -34,7 +42,7 @@ class Save extends StatelessWidget {
             SizedBox(height: 25,),
             Text(
               oneThing,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: tSize, fontWeight: FontWeight.w700),
             ),
             SizedBox(
               height: 50,
@@ -74,7 +82,7 @@ class Save extends StatelessWidget {
               height: 75,
             ),
             Text(
-              '총 원띵 수행일',
+              '총 원띵 수행횟수',
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(
