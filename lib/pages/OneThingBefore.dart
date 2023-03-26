@@ -1,11 +1,4 @@
-import 'dart:ffi';
-
-import 'package:calendar_view/calendar_view.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:one_thing_tracker_app/main.dart';
-
-
 import '../components/Setting.dart';
 
 class OneThingBefore extends StatefulWidget {

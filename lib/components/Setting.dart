@@ -58,9 +58,17 @@ class _SettingState extends State<Setting> {
                   maxLength: 20,
                   controller: textController1,
                 ),
-                Text(
-                  '매일 정해진 시간에 알림을 전송할까요? (선택)',
-                  style: TextStyle(fontSize: 17),
+                Column(
+                  children: [
+                    Text(
+                      '매일 정해진 시간에 알림을 전송할까요? (선택)',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    Text(
+                      '알림 권한을 한 번이라도 허용했었다면 권한 허용 창이 나오지 않습니다.',
+                      style: TextStyle(fontSize: 11),
+                    )
+                  ],
                 ),
                 TimePick(),
                 SizedBox(
@@ -109,9 +117,23 @@ class _TimePickState extends State<TimePick> {
             selectedTime.then((timeOfDay) {
               if (timeOfDay == null) {
                 selectedTime = null;
-                showDialog(context: context, builder: (context) => AlertDialog(title: Text('주의!'),content: Text('시간이 선택되지 않았습니다',)));
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                        title: Text('주의!'),
+                        content: Text(
+                          '시간이 선택되지 않았습니다',
+                        )));
               } else {
                 context.read<store1>().changeNotificationTime(timeOfDay);
+                FlutterLocalNotificationsPlugin
+                    flutterLocalNotificationsPlugin =
+                    FlutterLocalNotificationsPlugin();
+                flutterLocalNotificationsPlugin
+                    .resolvePlatformSpecificImplementation<
+                        AndroidFlutterLocalNotificationsPlugin>()
+                    ?.requestPermission();
+                showNotification(context.read<store1>().notificationTime);
                 setState(() {
                   index = 1;
                 });
@@ -120,16 +142,9 @@ class _TimePickState extends State<TimePick> {
           },
           child: Text('시간을 정해주세요')),
       ElevatedButton(
-          onPressed: () {
-            FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-                FlutterLocalNotificationsPlugin();
-            flutterLocalNotificationsPlugin
-                .resolvePlatformSpecificImplementation<
-                    AndroidFlutterLocalNotificationsPlugin>()
-                ?.requestPermission();
-            showNotification(context.read<store1>().notificationTime);
-          },
-          child: Text('버튼을 누르고 알림 권한을 허용해주세요')),
+        onPressed: null,
+        child: Text('시간 설정 완료'),
+      ),
     ][index];
   }
 }

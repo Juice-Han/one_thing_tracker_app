@@ -7,6 +7,7 @@ import 'package:one_thing_tracker_app/notification.dart';
 import 'package:one_thing_tracker_app/pages/OneThingAfter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'pages/Calendar.dart';
 import 'components/History.dart';
@@ -14,6 +15,8 @@ import 'pages/OneThingBefore.dart';
 import 'components/Save.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
     CalendarControllerProvider(
       controller: EventController(),
@@ -212,6 +215,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initNotification();
     getData();
+    FlutterNativeSplash.remove();
   }
 
   @override
