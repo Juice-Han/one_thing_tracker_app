@@ -170,15 +170,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   removeCalendarEvent() {
-      for(var e in calendarEvents){
-        setState(() {
-          CalendarControllerProvider.of(context).controller.remove(e);
-        });
-      }
+    for (var e in calendarEvents) {
       setState(() {
-        calendarEvents = [];
+        CalendarControllerProvider.of(context).controller.remove(e);
       });
+    }
+    setState(() {
+      calendarEvents = [];
+    });
   }
+
   navigationTapped(i) {
     setState(() {
       page = i;
@@ -272,7 +273,7 @@ class _MyAppState extends State<MyApp> {
             addCalendarEvent: addCalendarEvent,
           )
         ][isChanged],
-        Calendar()
+        Calendar(oneThingDate: oneThingDate),
       ][page],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: page,

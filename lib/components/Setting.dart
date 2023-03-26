@@ -58,17 +58,9 @@ class _SettingState extends State<Setting> {
                   maxLength: 20,
                   controller: textController1,
                 ),
-                Column(
-                  children: [
-                    Text(
-                      '매일 정해진 시간에 알림을 전송할까요? (선택)',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    Text(
-                      '알림 권한을 한 번이라도 허용했었다면 권한 허용 창이 나오지 않습니다.',
-                      style: TextStyle(fontSize: 11),
-                    )
-                  ],
+                Text(
+                  '매일 정해진 시간에 알림을 전송할까요? (선택)',
+                  style: TextStyle(fontSize: 17),
                 ),
                 TimePick(),
                 SizedBox(
