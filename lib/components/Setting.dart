@@ -55,6 +55,9 @@ class _SettingState extends State<Setting> {
                   style: TextStyle(fontSize: 20),
                 ),
                 TextField(
+                  decoration: InputDecoration(
+                    hintText: '원띵을 적어주세요'
+                  ),
                   maxLength: 20,
                   controller: textController1,
                 ),
