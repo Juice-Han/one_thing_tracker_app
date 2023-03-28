@@ -223,7 +223,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Let\'s do One Thing!'),
+        title: Text('One Thing Tracker'),
         actions: [
           IconButton(
             onPressed: () {
