@@ -2,7 +2,7 @@
     package="com.example.one_thing_tracker_app">
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
    <application
-        android:label="one_thing_tracker_app"
+        android:label="One Thing Tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
