@@ -26,8 +26,8 @@ showNotification(t) async {
       '앱에서 실행완료버튼을 눌러주세요!',
       makeDate(t.hour, t.minute, 0),
       const NotificationDetails(
-        android: AndroidNotificationDetails('', '6시 실행 완료 버튼 알람',
-            channelDescription: '매일 저녁 6시에 실행 완료 버튼을 누르는 것을 까먹지 않게 합니다.'),
+        android: AndroidNotificationDetails('', '실행 완료 버튼 알림',
+            channelDescription: '매일 실행 완료 버튼을 누르는 것을 까먹지 않게 합니다.'),
       ),
       androidAllowWhileIdle: true,
       matchDateTimeComponents: DateTimeComponents.time,
