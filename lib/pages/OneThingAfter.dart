@@ -10,12 +10,15 @@ class OneThingAfter extends StatefulWidget {
       this.completeIndex,
       this.changeCompleteIndexTo1,
       this.addOneThingDate,
-      this.addCalendarEvent});
+      this.addCalendarEvent,
+      this.loadCalenderData,
+      });
   var completeIndex;
   var oneThing;
   var changeCompleteIndexTo1;
   var addOneThingDate;
   var addCalendarEvent;
+  var loadCalenderData;
 
   @override
   State<OneThingAfter> createState() => _OneThingAfterState();
@@ -54,6 +57,7 @@ class _OneThingAfterState extends State<OneThingAfter> {
                 var now = DateTime.now().toString();
                 widget.changeCompleteIndexTo1();
                 context.read<store1>().saveCompleteIndex(1);
+                widget.loadCalenderData();
                 final event =
                     CalendarEventData(title: 'One', date: DateTime.now());
                 CalendarControllerProvider.of(context).controller.add(event);

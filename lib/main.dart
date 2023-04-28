@@ -271,6 +271,7 @@ class _MyAppState extends State<MyApp> {
             changeCompleteIndexTo1: changeCompleteIndexTo1,
             addOneThingDate: addOneThingDate,
             addCalendarEvent: addCalendarEvent,
+            loadCalenderData: loadCalenderData,
           )
         ][isChanged],
         Calendar(oneThingDate: oneThingDate),
