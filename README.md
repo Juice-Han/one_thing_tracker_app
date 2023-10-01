@@ -1,16 +1,13 @@
 # one_thing_tracker_app
 
-A new Flutter project.
+One Thing Tracker app made by **Flutter, Dart**.
 
-## Getting Started
+## Getting Started!
 
-This project is a starting point for a Flutter application.
+[Go to PlayStore!]("https://play.google.com/store/apps/details?id=com.JJuiceHan.one_thing_tracker_app&hl=en-KR")
 
-A few resources to get you started if this is your first Flutter project:
+👆You can download app from Google Play Store!
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. You will set up your own 'One Thing' clicking the button of center.
+2. Do your One Thing every day and push the main button "실행완료".
+3. Then, Your activity will be recorded in callender.
